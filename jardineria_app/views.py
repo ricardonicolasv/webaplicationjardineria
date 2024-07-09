@@ -14,35 +14,35 @@ from django.http import HttpResponseRedirect
 
 
 
-@login_required
+
 def flores(request):
     productos_flores = Producto.objects.filter(tipo='FLORES')
     datos = {
         "productos_flores": productos_flores
     }
     return render(request, 'crud/flores.html', datos)
-@login_required
+
 def maceteros(request):
     productos_maceteros = Producto.objects.filter(tipo='MACETEROS')
     datos = {
         "productos_maceteros": productos_maceteros
     }
     return render(request, 'crud/maceteros.html', datos)
-@login_required
+
 def suculentas(request):
     productos_suculentas = Producto.objects.filter(tipo='SUCULENTAS')
     datos = {
         "productos_suculentas": productos_suculentas
     }
     return render(request, 'crud/suculentas.html', datos)
-@login_required
+
 def sustratos(request):
     productos_sustratos = Producto.objects.filter(tipo='SUSTRATOS')
     datos = {
         "productos_sustratos": productos_sustratos
     }
     return render(request, 'crud/sustratos.html', datos)
-@login_required
+
 def tierra(request):
     productos_tierras = Producto.objects.filter(tipo='TIERRA DE HOJA')
     datos = {
