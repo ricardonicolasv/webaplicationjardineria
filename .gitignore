@@ -1,0 +1,4 @@
+jardineria/__pycache__/
+jardineria_app/__pycache__/
+jardineria_app/migrations/__pycache__/
+db.sqlite3
