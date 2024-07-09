@@ -2,7 +2,7 @@
 
 {% block contenido %}
 <div class="container mt-4">
-  <h3>Agregar Pedido para Usuario: {{ usuario.username }}</h3>
+  <h3>Agregar producto a Pedido de Usuario: {{ usuario.username }}</h3>
   <form method="POST" action="{% url 'agregar_pedido_usuario' usuario.id %}">
     {% csrf_token %}
     <div id="messages">

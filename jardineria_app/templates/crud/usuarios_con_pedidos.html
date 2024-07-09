@@ -32,7 +32,7 @@
             <td>
               <a href="{% url 'detalles_pedidos_usuario' usuario.id %}" role="button" class="btn btn-info btn-sm text-light">Ver detalles del pedido</a>
               {% if perms.auth.change_user %}
-              <a href="{% url 'agregar_pedido_usuario' usuario.id %}" role="button" class="btn btn-warning btn-sm text-light mt-2">Modificar pedido</a>
+              <a href="{% url 'agregar_pedido_usuario' usuario.id %}" role="button" class="btn btn-warning btn-sm text-light mt-2">Agregar Producto</a>
               {% endif %}
             </td>
           </tr>
