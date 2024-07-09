@@ -1,0 +1,50 @@
+{% extends "crud/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block titulo %}Detalle del Pedido{% endblock %}
+{% block contenido %}
+    <header id="header">
+        <h1>Detalle del Pedido</h1>
+    </header>
+
+    <div class="detalle-pedido p-2 my-2">
+        <h4>Usuario: {{ usuario.username }}</h4>
+        <h4>Nombre: {{ usuario.first_name }} {{ usuario.last_name }}</h4>
+        <h4>Dirección: {{ usuario.direccion }}</h4>
+        <h4>RUT: {{ usuario.rut }}</h4>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Imagen</th>
+                    <th scope="col">Producto</th>
+                    <th scope="col">Valor</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for detalle in detalles_pedidos %}
+                <tr>
+                    <td class="images"><img src="{{ detalle.producto.imagen.url }}" width="50px" height="50px"></td>
+                    <td>{{ detalle.producto.nombre_producto }}</td>
+                    <td>${{ detalle.producto.precio }}</td>
+                    <td>{{ detalle.cantidad }}</td>
+                    <td>${{ detalle.subtotal }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">No hay productos en tu pedido.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h4>Total del pedido: ${{ total_pedido }}</h4>
+
+        <form method="post" action="{% url 'seguimiento_pedido' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success btn-lg">Confirmar Pago</button>
+        </form>
+    </div>
+{% endblock contenido %}

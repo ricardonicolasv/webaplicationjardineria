@@ -1,0 +1,47 @@
+{% extends 'crud/base.html' %}
+{% load static %}
+
+{% block titulo %}Productos de Tierra de Hojas{% endblock %}
+
+{% block contenido %}
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-sm-12">
+      <h3>Productos de Tierra de Hojas Disponibles</h3>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>IMAGEN</th>
+            <th>NOMBRE PRODUCTO</th>
+            <th>CANTIDAD</th>
+            <th>TIPO</th>
+            <th>PRECIO</th>
+            <th>ACCIONES</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for producto in productos_tierras %}
+          <tr>
+            <td><img src="{{ producto.imagen.url }}" alt="Imagen de {{ producto.nombre_producto }}" height="100"></td>
+            <td>{{ producto.nombre_producto }}</td>
+            <td>{{ producto.cantidad }}</td>
+            <td>{{ producto.tipo }}</td>
+            <td>{{ producto.precio }}</td>
+            <td>
+              <form method="post" action="{% url 'agregar_a_pedido' producto.codigo_producto %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-success btn-sm text-light">Agregar al Carro</button>
+              </form>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="6">No hay productos de tierra de hojas disponibles.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

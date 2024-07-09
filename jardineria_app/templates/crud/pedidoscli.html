@@ -1,0 +1,65 @@
+{% extends "crud/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block titulo %}Pedido cliente{% endblock %}
+{% block contenido %}
+    <header id="header">
+        <h1>Pedidos</h1>
+    </header>
+
+    <div class="tabla p-2 my-2">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Imagen</th>
+                    <th scope="col">Producto</th>
+                    <th scope="col">Valor</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pedido in pedidos %}
+                <tr>
+                    <td class="images"><img src="{{ pedido.producto.imagen.url }}" width="50px" height="50px"></td>
+                    <td>{{ pedido.producto.nombre_producto }}</td>
+                    <td>${{ pedido.producto.precio }}</td>
+                    <td>
+                        <form method="post" action="{% url 'actualizar_cantidad' pedido.id %}">
+                            {% csrf_token %}
+                            <input type="number" name="cantidad" value="{{ pedido.cantidad }}" min="1" max="{{ pedido.producto.cantidad }}" required>
+                            <button type="submit" class="btn btn-primary btn-sm">Actualizar</button>
+                        </form>
+                    </td>
+                    <td>{{ pedido.fecha }}</td>
+                    <td>
+                        <form method="post" action="{% url 'eliminar_pedido' pedido.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6">No hay productos en tu pedido.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if pedidos %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <h4>Total del pedido: ${{ total_pedido }}</h4>
+                <form method="post" action="{% url 'detalle_pedido' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success btn-lg">Pagar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endblock contenido %}

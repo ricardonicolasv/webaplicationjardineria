@@ -1,0 +1,47 @@
+{% extends 'crud/base.html' %}
+{% load static %}
+
+{% block titulo %}Productos de Flores{% endblock %}
+
+{% block contenido %}
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-sm-12">
+      <h3>Productos de Flores Disponibles</h3>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>IMAGEN</th>
+            <th>NOMBRE PRODUCTO</th>
+            <th>CANTIDAD</th>
+            <th>TIPO</th>
+            <th>PRECIO</th>
+            <th>ACCIONES</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in productos_flores %}
+          <tr>
+            <td><img src="{{ p.imagen.url }}" alt="Imagen de {{ p.nombre_producto }}" height="100"></td>
+            <td>{{ p.nombre_producto }}</td>
+            <td>{{ p.cantidad }}</td>
+            <td>{{ p.tipo }}</td>
+            <td>{{ p.precio }}</td>
+            <td>
+              <form method="post" action="{% url 'agregar_a_pedido' p.codigo_producto %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-success btn-sm text-light">Agregar al Carro</button>
+              </form>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="6">No hay productos de flores disponibles.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "crud/base.html" %}
+
+{% block contenido %}
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-sm-1">
+    </div>
+  <div class="col-sm-10">
+    <h3>Listado de Producto</h3>
+    {% if perms.jardineria.add_producto %}
+    <a href="{% url "crearproducto" %}" role='button' class='btn btn-sm text-primary' style="font-weight:bold">+ Crear Producto</a>
+    {% endif %}
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>IMAGEN</th>
+          <th>CODIGO PRODUCTO</th>
+          <th>NOMBRE PRODUCTO</th>
+          <th>CANTIDAD</th>
+          <th>TIPO</th>
+          <th>PRECIO</th>
+          
+          <th>ACCIONES</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        {% for p in producto %}
+        <td><img src="{{p.imagen.url}}" alt="fotito" height="100"> </td>
+        <td>{{p.codigo_producto}}</td>
+        <td>{{p.nombre_producto}}</td>
+        <td>{{p.cantidad}}</td>
+        <td>{{p.tipo}}</td>
+        <td>{{p.precio}}</td>
+        
+        <td><a href="{% url "detalles_producto" p.codigo_producto %}" role="button" class="btn btn-info btn-sm text-light">Ver detalles</a>
+        {% if perms.jardineria.change_producto %}
+        <a href="{% url "modificarproducto" p.codigo_producto %}" role="button" class="btn btn-warning btn-sm text-light mt-2">Modificar</a> </td>
+        {% endif %}
+      </tr>
+        {% endfor %}
+        <tr>
+      </tbody>
+    </table>
+
+  </div>
+  <div class="col-sm-1"></div>
+</div>
+</div>
+
+
+{% endblock contenido %}

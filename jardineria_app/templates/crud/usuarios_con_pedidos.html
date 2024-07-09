@@ -1,0 +1,46 @@
+{% extends "crud/base.html" %}
+
+{% block contenido %}
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10">
+      <h3>Listado de Usuarios con Pedidos</h3>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Dirección</th>
+            <th>Pedidos</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for usuario in usuarios %}
+          <tr>
+            <td>{{ usuario.id }}</td>
+            <td>{{ usuario.username }}</td>
+            <td>{{ usuario.direccion }}</td>
+            <td>
+              <ul>
+                {% for pedido in usuario.pedido_set.all %}
+                  <li>{{ pedido.producto.nombre_producto }} - Cantidad: {{ pedido.cantidad }}</li>
+                {% endfor %}
+              </ul>
+            </td>
+            <td>
+              <a href="{% url 'detalles_pedidos_usuario' usuario.id %}" role="button" class="btn btn-info btn-sm text-light">Ver detalles del pedido</a>
+              {% if perms.auth.change_user %}
+              <a href="{% url 'agregar_pedido_usuario' usuario.id %}" role="button" class="btn btn-warning btn-sm text-light mt-2">Modificar pedido</a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="col-sm-1"></div>
+  </div>
+</div>
+{% endblock contenido %}

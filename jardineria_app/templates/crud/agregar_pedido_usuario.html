@@ -1,0 +1,66 @@
+{% extends "crud/base.html" %}
+
+{% block contenido %}
+<div class="container mt-4">
+  <h3>Agregar Pedido para Usuario: {{ usuario.username }}</h3>
+  <form method="POST" action="{% url 'agregar_pedido_usuario' usuario.id %}">
+    {% csrf_token %}
+    <div id="messages">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-success" role="alert">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+    <table class="table table-hover">
+    <button type="submit" class="btn btn-primary">Guardar Pedidos</button>
+    <a href="{% url 'listar_usuarios_con_pedidos' %}" class="btn btn-secondary btn-mg">Volver</a>
+      <thead>
+        <tr>
+          <th>IMAGEN</th>
+          <th>CODIGO PRODUCTO</th>
+          <th>NOMBRE PRODUCTO</th>
+          <th>CANTIDAD DISPONIBLE</th>
+          <th>TIPO</th>
+          <th>PRECIO</th>
+          <th>CANTIDAD A AGREGAR</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for producto in productos %}
+        <tr>
+          <td><img src="{{ producto.imagen.url }}" alt="Imagen de {{ producto.nombre_producto }}" height="100"></td>
+          <td>{{ producto.codigo_producto }}</td>
+          <td>{{ producto.nombre_producto }}</td>
+          <td>{{ producto.cantidad }}</td>
+          <td>{{ producto.tipo }}</td>
+          <td>{{ producto.precio }}</td>
+          <td>
+            <input type="number" name="cantidad_{{ producto.codigo_producto }}" min="0" max="{{ producto.cantidad }}" value="0">
+            <input type="hidden" name="producto_{{ producto.codigo_producto }}" value="{{ producto.codigo_producto }}">
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <button type="submit" class="btn btn-primary">Guardar Pedidos</button>
+    <a href="{% url 'listar_usuarios_con_pedidos' %}" class="btn btn-secondary btn-mg">Volver</a>
+  </form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const agregarCarroButtons = document.querySelectorAll('.agregar-carro-btn');
+  
+  agregarCarroButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const cantidadInput = button.parentElement.querySelector('input[type="number"]');
+      cantidadInput.value = '1';  // Puedes cambiar esto según tu lógica
+    });
+  });
+});
+</script>
+
+{% endblock contenido %}

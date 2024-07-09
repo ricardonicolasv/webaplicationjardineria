@@ -1,0 +1,51 @@
+{% extends "crud/base.html" %}
+
+{% block contenido %}
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10">
+      <h3>Listado de Usuarios</h3>
+      <a href="{% url 'crearcuenta' %}">
+        <button type="button" class="btn btn-success">
+            + Crear Usuario
+        </button>
+    </a>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>RUT</th>
+            <th>Dirección</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in usuarios %}
+          <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.first_name }}</td>
+            <td>{{ user.last_name }}</td>
+            <td>{{ user.rut }}</td>
+            <td>{{ user.direccion }}</td>
+            <td>
+              <a href="{% url 'detalles_usuario' user.id %}" role="button" class="btn btn-info btn-sm text-light">Ver detalles</a>
+              {% if perms.auth.change_user %}
+              <a href="{% url 'modificar_usuario' user.id %}" role="button" class="btn btn-warning btn-sm text-light mt-2">Modificar</a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="col-sm-1"></div>
+  </div>
+</div>
+{% endblock contenido %}

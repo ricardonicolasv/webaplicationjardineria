@@ -1,0 +1,29 @@
+{% extends "crud/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+
+{% block contenido %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
+            <div class="p-5 border rounded shadow mt-4">
+                <h3>Editar Registro</h3>
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{form | crispy}}
+                    <div>
+                        <input type="submit" value="Modificar" class="btn btn-warning  text-light btn-lg">
+                        <a href="{% url "productos" %}">
+                            <button type="button" class="btn btn-success border btn-lg">Volver</button>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-sm-4"></div>
+    </div>
+</div>
+{% endblock contenido %}
