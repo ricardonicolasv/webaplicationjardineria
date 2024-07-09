@@ -292,12 +292,16 @@ def detalles_pedidos_usuario(request, user_id):
     if request.method == "POST":
         action = request.POST.get("action")
         if action == "modificar":
-            pedido_id = request.POST.get("pedido_id")
-            cantidad = int(request.POST.get("cantidad"))
-            pedido = get_object_or_404(Pedido, id=pedido_id)
-            pedido.cantidad = cantidad
-            pedido.save()
-            messages.success(request, "Pedido modificado correctamente.")
+            for detalle in detalles_pedidos:
+                pedido_id = request.POST.get(f"pedido_id_{detalle['pedido'].id}")
+                cantidad = int(request.POST.get(f"cantidad_{detalle['pedido'].id}"))
+                if cantidad <= 0:
+                    messages.error(request, "La cantidad debe ser mayor que cero.")
+                else:
+                    pedido = get_object_or_404(Pedido, id=pedido_id)
+                    pedido.cantidad = cantidad
+                    pedido.save()
+                    messages.success(request, "Pedido modificado correctamente.")
         elif action == "eliminar":
             pedido_id = request.POST.get("pedido_id")
             pedido = get_object_or_404(Pedido, id=pedido_id)
@@ -311,6 +315,7 @@ def detalles_pedidos_usuario(request, user_id):
         "total_pedido": total_pedido
     }
     return render(request, 'crud/detalles_pedidos_usuario.html', datos)
+
 
 
 @login_required
